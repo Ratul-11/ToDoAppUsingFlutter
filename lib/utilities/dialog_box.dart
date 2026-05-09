@@ -1,53 +1,118 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/utilities/colors.dart';
 import 'package:todoapp/utilities/my_button.dart';
+import 'package:todoapp/utilities/dropdown.dart';
 
-class DialogBox extends StatelessWidget {
+class DialogBox extends StatefulWidget {
+
   final controller;
-  final VoidCallback onSave;
+  final Function(String) onSave;
   final VoidCallback onCancel;
-  const DialogBox({super.key, required this.controller, required this.onSave, required this.onCancel});
+
+  const DialogBox({
+    super.key,
+    required this.controller,
+    required this.onSave,
+    required this.onCancel,
+  });
+
+  @override
+  State<DialogBox> createState() => _DialogBoxState();
+}
+
+class _DialogBoxState extends State<DialogBox> {
+
+  String selectedPriority = "Low";
 
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
+
       contentPadding: EdgeInsets.all(0),
+
       content: Container(
-        height:150,
-        width: 150,
-        decoration: BoxDecoration
-        (gradient: mainGradient,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          //get user input
-          TextField(
-            controller: controller,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-               border: OutlineInputBorder(),
-              hintText: "Add a new task",
-              hintStyle: TextStyle(
-                color: Colors.grey,
+
+        padding: EdgeInsets.all(20),
+
+        decoration: BoxDecoration(
+          gradient: mainGradient,
+          borderRadius: BorderRadius.circular(12),
+        ),
+
+        child: Column(
+
+          mainAxisSize: MainAxisSize.min,
+
+          children: [
+
+            // text field
+            TextField(
+
+              controller: widget.controller,
+
+              style: TextStyle(
+                color: Colors.white,
+              ),
+
+              decoration: InputDecoration(
+
+                border: OutlineInputBorder(),
+
+                hintText: "Add a new task",
+
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                ),
               ),
             ),
-          ),
-          //buttons -> save + cancel
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            //save button
-            myButton(text: "Save", onPressed: onSave),
-            //delete button
-            myButton(text: "Delete", onPressed: onCancel),
+
+            SizedBox(height: 20),
+
+            // dropdown
+            dropDown(
+
+              selectedValue: selectedPriority,
+
+              onChanged: (value) {
+
+                setState(() {
+
+                  selectedPriority = value!;
+
+                });
+
+              },
+
+            ),
+
+            SizedBox(height: 20),
+
+            // buttons
+            Row(
+
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+              children: [
+
+                myButton(
+                  text: "Save",
+                  onPressed: () {
+                    widget.onSave(selectedPriority);
+                  },
+                ),
+
+                myButton(
+                  text: "Delete",
+                  onPressed: widget.onCancel,
+                ),
+
+              ],
+            ),
+
           ],
-        )
-        ],//children
+        ),
       ),
-    ),
     );
   }
 }
