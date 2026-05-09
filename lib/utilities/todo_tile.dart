@@ -1,111 +1,159 @@
-import'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ToDoTile extends StatelessWidget {
+
   final String taskName;
   final String priority;
   final bool taskCompleted;
   final Function(bool?)? onChanged;
   final Function(BuildContext)? deleteFunction;
 
-   const ToDoTile({super.key,
-   required this.taskName,
-   required this.taskCompleted,
-   required this.onChanged,
-   required this.deleteFunction,
-   required this.priority
-   });
+  const ToDoTile({
+    super.key,
+    required this.taskName,
+    required this.taskCompleted,
+    required this.onChanged,
+    required this.deleteFunction,
+    required this.priority,
+  });
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
-      padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
+
+      padding: const EdgeInsets.only(
+        left: 25.0,
+        right: 25.0,
+        top: 25.0,
+      ),
+
       child: Slidable(
+
         endActionPane: ActionPane(
-          motion: StretchMotion(),
+
+          motion: const StretchMotion(),
+
           children: [
+
             SlidableAction(
+
               onPressed: deleteFunction,
+
               icon: Icons.delete,
+
               backgroundColor: Colors.red,
-              borderRadius: BorderRadius.circular(12),
-            )
+
+              borderRadius:
+                  BorderRadius.circular(12),
+            ),
+
           ],
         ),
-         child: Container(
-          padding: EdgeInsets.all(15),
+
+        child: Container(
+
+          padding: const EdgeInsets.all(15),
+
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(12),
+
+            color:
+                Colors.white.withValues(
+                    alpha: 0.3),
+
+            borderRadius:
+                BorderRadius.circular(12),
           ),
+
           child: Row(
 
-  mainAxisAlignment:
-      MainAxisAlignment.spaceBetween,
+            mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
 
-  children: [
+            children: [
 
-    Row(
+              Expanded(
 
-      children: [
+                child: Row(
 
-        Checkbox(
-          value: taskCompleted,
-          onChanged: onChanged,
-        ),
+                  children: [
 
-        Text(
+                    Checkbox(
 
-          taskName,
+                      value: taskCompleted,
 
-          style: TextStyle(
+                      onChanged: onChanged,
+                    ),
 
-            color: Colors.white,
+                    Expanded(
 
-            fontSize: 18,
+                      child: Text(
 
-            decoration: taskCompleted
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
+                        taskName,
+
+                        softWrap: true,
+
+                        style: TextStyle(
+
+                          color: Colors.white,
+
+                          fontSize: 18,
+
+                          decoration:
+                              taskCompleted
+                                  ? TextDecoration
+                                      .lineThrough
+                                  : TextDecoration
+                                      .none,
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+
+              const SizedBox(width: 10),
+
+              Container(
+
+                padding:
+                    const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+
+                decoration: BoxDecoration(
+
+                  color:
+                      priority == "High"
+                          ? Colors.red
+                          : priority ==
+                                  "Medium"
+                              ? Colors.orange
+                              : Colors.green,
+
+                  borderRadius:
+                      BorderRadius.circular(20),
+                ),
+
+                child: Text(
+
+                  priority,
+
+                  style: const TextStyle(
+
+                    color: Colors.white,
+
+                    fontWeight:
+                        FontWeight.bold,
+                  ),
+                ),
+              ),
+
+            ],
           ),
-        ),
-
-      ],
-    ),
-
-    Container(
-
-      padding: EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 5,
-      ),
-
-      decoration: BoxDecoration(
-
-        color:
-            priority == "High"
-                ? Colors.red
-                : priority == "Medium"
-                    ? Colors.orange
-                    : Colors.green,
-
-        borderRadius:
-            BorderRadius.circular(20),
-      ),
-
-      child: Text(
-
-        priority,
-
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-
-  ],
-),
         ),
       ),
     );
