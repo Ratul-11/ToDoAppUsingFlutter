@@ -13,101 +13,171 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   late final Box _myBox;
   late final ToDoDataBase db;
 
   @override
-void initState() {
-  super.initState();
+  void initState() {
 
-  _myBox = Hive.box('mybox');
-  db = ToDoDataBase(_myBox);
+    super.initState();
 
-  db.loadData(); 
-}
-  //text controler
+    _myBox = Hive.box('mybox');
+
+
+
+    db = ToDoDataBase(_myBox);
+
+    db.loadData();
+  }
+
+  // text controller
   final _controller = TextEditingController();
 
-//save new task
-void saveNewTask(){
-  setState(() {
-    db.todoList.add([_controller.text, false]);
-  });
-  _controller.clear();
-  Navigator.of(context).pop();
-  db.updateDataBase();
-}
-//checkbox was tapped
-void checkBoxChanged(bool? value, int index){
-  setState(() {
-    db.todoList[index][1] = !db.todoList[index][1];
-  });
-  db.updateDataBase();
-}
-//delete task
-void deleteTask(int index){
-  setState(() {
-    db.todoList.removeAt(index);
-  });
-  db.updateDataBase();
-}
-//create a new task
- void createNewTask(){
-  showDialog(
-    context: context,
-    builder: (context){
-      return DialogBox(
-        controller: _controller, 
-        onSave: () {
-          saveNewTask();
-        },
-        onCancel: () => Navigator.of(context).pop(),
-      );
-    },
-  );
- }
+  // save new task
+  void saveNewTask(String priority) {
+
+    setState(() {
+
+      db.todoList.add([
+        _controller.text,
+        false,
+        priority,
+      ]);
+
+    });
+
+    _controller.clear();
+
+    Navigator.of(context).pop();
+
+    db.updateDataBase();
+  }
+
+  // checkbox tapped
+  void checkBoxChanged(bool? value, int index) {
+
+    setState(() {
+
+      db.todoList[index][1] =
+          !db.todoList[index][1];
+
+    });
+
+    db.updateDataBase();
+  }
+
+  // delete task
+  void deleteTask(int index) {
+
+    setState(() {
+
+      db.todoList.removeAt(index);
+
+    });
+
+    db.updateDataBase();
+  }
+
+  // create new task
+  void createNewTask() {
+
+    showDialog(
+
+      context: context,
+
+      builder: (context) {
+
+        return DialogBox(
+
+          controller: _controller,
+
+          onSave: (priority) {
+
+            saveNewTask(priority);
+
+          },
+
+          onCancel: () =>
+              Navigator.of(context).pop(),
+
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       extendBodyBehindAppBar: true,
+
       appBar: AppBar(
-          title: Text("To Do",
+
+        title: const Text(
+          "To Do",
+
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
-          ),
-          backgroundColor: Colors.black.withOpacity(0.3),
-          elevation: 0,
-          centerTitle: true,
         ),
 
+        backgroundColor:
+            Colors.black.withOpacity(0.3),
 
-        floatingActionButton: FloatingActionButton(
-          onPressed: createNewTask,
-          child: Icon(Icons.add),
+        elevation: 0,
+
+        centerTitle: true,
+      ),
+
+      floatingActionButton:
+          FloatingActionButton(
+
+        onPressed: createNewTask,
+
+        child: const Icon(Icons.add),
+      ),
+
+      body: Container(
+
+        height: double.infinity,
+
+        width: double.infinity,
+
+        decoration: BoxDecoration(
+          gradient: mainGradient,
         ),
 
-        body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: mainGradient,
-          ),
+        child: ListView.builder(
 
-         child:ListView.builder(
-           itemCount: db.todoList.length,
-           itemBuilder: (BuildContext context, int index) {
-             return ToDoTile(
+          itemCount: db.todoList.length,
+
+          itemBuilder:
+              (BuildContext context, int index) {
+
+            return ToDoTile(
+
               taskName: db.todoList[index][0],
-              taskCompleted: db.todoList[index][1],
-              onChanged: (value) =>checkBoxChanged(value, index),
-              deleteFunction: (context) => deleteTask(index),
-             ); 
-           },
-         ),
+
+              taskCompleted:
+                  db.todoList[index][1],
+
+              priority:
+                  db.todoList[index][2],
+
+              onChanged: (value) =>
+                  checkBoxChanged(
+                      value, index),
+
+              deleteFunction: (context) =>
+                  deleteTask(index),
+            );
+          },
         ),
-      );
+      ),
+    );
   }
 }

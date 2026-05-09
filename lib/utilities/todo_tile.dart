@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ToDoTile extends StatelessWidget {
   final String taskName;
+  final String priority;
   final bool taskCompleted;
   final Function(bool?)? onChanged;
   final Function(BuildContext)? deleteFunction;
@@ -12,6 +13,7 @@ class ToDoTile extends StatelessWidget {
    required this.taskCompleted,
    required this.onChanged,
    required this.deleteFunction,
+   required this.priority
    });
 
   @override
@@ -37,17 +39,73 @@ class ToDoTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
-            children: [
-              Checkbox(value: taskCompleted, onChanged: onChanged),
-              Text(taskName,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  decoration: taskCompleted ? TextDecoration.lineThrough : TextDecoration.none,
-                ),
-                ),
-            ],
+
+  mainAxisAlignment:
+      MainAxisAlignment.spaceBetween,
+
+  children: [
+
+    Row(
+
+      children: [
+
+        Checkbox(
+          value: taskCompleted,
+          onChanged: onChanged,
+        ),
+
+        Text(
+
+          taskName,
+
+          style: TextStyle(
+
+            color: Colors.white,
+
+            fontSize: 18,
+
+            decoration: taskCompleted
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
           ),
+        ),
+
+      ],
+    ),
+
+    Container(
+
+      padding: EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 5,
+      ),
+
+      decoration: BoxDecoration(
+
+        color:
+            priority == "High"
+                ? Colors.red
+                : priority == "Medium"
+                    ? Colors.orange
+                    : Colors.green,
+
+        borderRadius:
+            BorderRadius.circular(20),
+      ),
+
+      child: Text(
+
+        priority,
+
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+
+  ],
+),
         ),
       ),
     );
