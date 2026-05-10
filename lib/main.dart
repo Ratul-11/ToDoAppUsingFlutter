@@ -8,6 +8,7 @@ void main() async {
   // initialize Hive and open the box before runApp
   await Hive.initFlutter();
   await Hive.openBox('mybox');
+  await Hive.openBox('RememberPagebox');
 
   runApp(const MyApp());
 }

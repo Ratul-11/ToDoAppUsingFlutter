@@ -4,17 +4,17 @@ import 'package:todoapp/utilities/colors.dart';
 import 'package:todoapp/utilities/todo_tile.dart';
 import 'package:todoapp/utilities/dialog_box.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todoapp/pages/remember_page.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:todoapp/pages/home_page.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+
+class RememberPage extends StatefulWidget {
+  const RememberPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<RememberPage> createState() => _RememberPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _RememberPageState extends State<RememberPage> {
 
   late final Box _myBox;
   late final ToDoDataBase db;
@@ -24,7 +24,9 @@ class _HomePageState extends State<HomePage> {
 
     super.initState();
 
-    _myBox = Hive.box('mybox');
+    _myBox = Hive.box('RememberPagebox');
+
+
 
     db = ToDoDataBase(_myBox);
 
@@ -189,7 +191,7 @@ class _HomePageState extends State<HomePage> {
 
           ListTile(
             title:Text("Home",
-            style:GoogleFonts.poppins(
+            style:TextStyle(
               fontSize:20,
               color: Colors.white,
                ),
@@ -205,7 +207,7 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             title:Text("Remember",
-            style:GoogleFonts.poppins(
+            style:TextStyle(
               fontSize:20,
               color: Colors.white,
                ),
@@ -229,7 +231,7 @@ class _HomePageState extends State<HomePage> {
         ),
 
         title: const Text(
-          "To Do",
+          "Remember",
 
           style: TextStyle(
             color: Colors.white,
@@ -291,9 +293,9 @@ class _HomePageState extends State<HomePage> {
               onEdit: () {
                     editTask(index);
                   },
-
-              showCheckbox: true,
-              showPriority: true,
+                  
+              showCheckbox: false,
+              showPriority: false,
             );
           },
         ),
