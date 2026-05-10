@@ -8,6 +8,7 @@ class ToDoTile extends StatelessWidget {
   final bool taskCompleted;
   final Function(bool?)? onChanged;
   final Function(BuildContext)? deleteFunction;
+  final VoidCallback? onEdit;
 
   const ToDoTile({
     super.key,
@@ -15,6 +16,7 @@ class ToDoTile extends StatelessWidget {
     required this.taskCompleted,
     required this.onChanged,
     required this.deleteFunction,
+    required this.onEdit,
     required this.priority,
   });
 
@@ -22,6 +24,159 @@ class ToDoTile extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Padding(
+
+      padding: const EdgeInsets.only(
+        left: 25.0,
+        right: 25.0,
+        top: 25.0,
+      ),
+
+      child: GestureDetector(
+
+        onLongPressStart: (_) {
+              onEdit?.call();
+            },
+
+        child: Slidable(
+
+          endActionPane: ActionPane(
+
+            motion: const StretchMotion(),
+
+            children: [
+
+              SlidableAction(
+
+                onPressed: deleteFunction,
+
+                icon: Icons.delete,
+
+                backgroundColor: Colors.red,
+
+                borderRadius:
+                    BorderRadius.circular(12),
+              ),
+
+            ],
+          ),
+
+          child: Container(
+
+            padding: const EdgeInsets.all(15),
+
+            decoration: BoxDecoration(
+
+              color:
+                  Colors.white.withValues(
+                    alpha: 0.3,
+                  ),
+
+              borderRadius:
+                  BorderRadius.circular(12),
+            ),
+
+            child: Row(
+
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+
+              children: [
+
+                Expanded(
+
+                  child: Row(
+
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start,
+
+                    children: [
+
+                      Checkbox(
+
+                        value: taskCompleted,
+
+                        onChanged: onChanged,
+                      ),
+
+                      Expanded(
+
+                        child: Padding(
+
+                          padding:
+                              const EdgeInsets.only(
+                            top: 12,
+                          ),
+
+                          child: Text(
+
+                            taskName,
+
+                            softWrap: true,
+
+                            style: TextStyle(
+
+                              color: Colors.white,
+
+                              fontSize: 18,
+
+                              decoration:
+                                  taskCompleted
+                                      ? TextDecoration
+                                          .lineThrough
+                                      : TextDecoration
+                                          .none,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+
+                const SizedBox(width: 10),
+
+                Container(
+
+                  padding:
+                      const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+
+                  decoration: BoxDecoration(
+
+                    color:
+                        priority == "High"
+                            ? Colors.red
+                            : priority ==
+                                    "Medium"
+                                ? Colors.orange
+                                : Colors.green,
+
+                    borderRadius:
+                        BorderRadius.circular(20),
+                  ),
+
+                  child: Text(
+
+                    priority,
+
+                    style: const TextStyle(
+
+                      color: Colors.white,
+
+                      fontWeight:
+                          FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
 
       padding: const EdgeInsets.only(
         left: 25.0,

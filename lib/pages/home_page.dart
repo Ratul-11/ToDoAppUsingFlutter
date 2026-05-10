@@ -76,6 +76,60 @@ class _HomePageState extends State<HomePage> {
 
     db.updateDataBase();
   }
+  void editTask(int index) {
+
+  // put old task text into textbox
+  _controller.text =
+      db.todoList[index][0];
+
+  showDialog(
+
+    context: context,
+
+    builder: (context) {
+
+      return DialogBox(
+
+        controller: _controller,
+
+        onSave: (priority) {
+
+          setState(() {
+
+            // update existing task
+            db.todoList[index] = [
+
+              _controller.text,
+
+              db.todoList[index][1],
+
+              priority,
+
+            ];
+
+          });
+
+          // clear textbox
+          _controller.clear();
+
+          // close dialog
+          Navigator.of(context).pop();
+
+          // save to Hive
+          db.updateDataBase();
+        },
+
+        onCancel: () {
+
+          _controller.clear();
+
+          Navigator.of(context).pop();
+
+        },
+      );
+    },
+  );
+}
 
   // create new task
   void createNewTask() {
@@ -172,6 +226,10 @@ class _HomePageState extends State<HomePage> {
 
               deleteFunction: (context) =>
                   deleteTask(index),
+
+              onEdit: () {
+                    editTask(index);
+                  },
             );
           },
         ),
