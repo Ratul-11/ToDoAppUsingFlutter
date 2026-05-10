@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ToDoTile extends StatelessWidget {
 
@@ -9,6 +10,8 @@ class ToDoTile extends StatelessWidget {
   final Function(bool?)? onChanged;
   final Function(BuildContext)? deleteFunction;
   final VoidCallback? onEdit;
+  final bool showCheckbox;
+  final bool showPriority;
 
   const ToDoTile({
     super.key,
@@ -18,6 +21,8 @@ class ToDoTile extends StatelessWidget {
     required this.deleteFunction,
     required this.onEdit,
     required this.priority,
+    required this.showCheckbox,
+    required this.showPriority,
   });
 
   @override
@@ -94,21 +99,18 @@ class ToDoTile extends StatelessWidget {
 
                     children: [
 
-                      Checkbox(
-
-                        value: taskCompleted,
-
-                        onChanged: onChanged,
-                      ),
-
+                     if (showCheckbox)
+                          Checkbox(
+                            value: taskCompleted,
+                            onChanged: onChanged,
+                          ),
+                        
                       Expanded(
 
                         child: Padding(
-
-                          padding:
-                              const EdgeInsets.only(
-                            top: 12,
-                          ),
+                            padding: EdgeInsets.only(
+                              top: showCheckbox ? 12 : 0,
+                            ),
 
                           child: Text(
 
@@ -116,7 +118,7 @@ class ToDoTile extends StatelessWidget {
 
                             softWrap: true,
 
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
 
                               color: Colors.white,
 
@@ -139,6 +141,7 @@ class ToDoTile extends StatelessWidget {
 
                 const SizedBox(width: 10),
 
+                if(showPriority)
                 Container(
 
                   padding:
@@ -165,7 +168,7 @@ class ToDoTile extends StatelessWidget {
 
                     priority,
 
-                    style: const TextStyle(
+                    style: GoogleFonts.poppins(
 
                       color: Colors.white,
 
