@@ -24,8 +24,6 @@ class _HomePageState extends State<HomePage> {
 
     _myBox = Hive.box('mybox');
 
-
-
     db = ToDoDataBase(_myBox);
 
     db.loadData();
