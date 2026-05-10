@@ -59,7 +59,7 @@ class _DialogBoxState extends State<DialogBox> {
                 filled: true,
                 fillColor: Colors.transparent,
 
-                hintText: "Add a new task",
+  fillColor: Colors.transparent,
 
                 hintStyle: TextStyle(
                   color: Colors.grey,
