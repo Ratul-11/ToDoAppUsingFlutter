@@ -57,14 +57,37 @@ class _DialogBoxState extends State<DialogBox> {
 
               decoration: InputDecoration(
 
-                border: OutlineInputBorder(),
+  filled: true,
 
-                hintText: "Add a new task",
+  fillColor: Colors.transparent,
 
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
+  hintText: "Add a new task",
+
+  hintStyle: TextStyle(
+    color: Colors.grey,
+  ),
+
+  enabledBorder: OutlineInputBorder(
+
+    borderRadius:
+        BorderRadius.circular(12),
+
+    borderSide: BorderSide(
+      color: Colors.white,
+    ),
+  ),
+
+  focusedBorder: OutlineInputBorder(
+
+    borderRadius:
+        BorderRadius.circular(12),
+
+    borderSide: BorderSide(
+      color: Colors.white,
+      width: 2,
+    ),
+  ),
+),
             ),
 
             SizedBox(height: 20),
